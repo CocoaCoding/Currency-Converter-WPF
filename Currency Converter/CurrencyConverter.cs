@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Xml;
 
@@ -9,7 +10,14 @@ namespace Currency_Converter
     public class CurrencyConverter
     {
         private string ecbUrl = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
-        private Dictionary<string, double> currencyRatesDic = new Dictionary<string, double>();
+        protected Dictionary<string, double> currencyRatesDic = new Dictionary<string, double>();
+
+        /// <summary>
+        /// As List of all currency rates.
+        /// Will be bound to the ComboBox
+        /// </summary>
+        public List<string> CurrencyRateKeys { get; private set; }
+
 
         public CurrencyConverter()
         {
@@ -17,6 +25,7 @@ namespace Currency_Converter
             if (!string.IsNullOrEmpty(responseString))
             {
                 this.ParseCurrencyRates(responseString);
+                this.CurrencyRateKeys = this.currencyRatesDic.Keys.ToList();
             }
         }
 
